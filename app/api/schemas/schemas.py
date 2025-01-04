@@ -2,6 +2,6 @@ from pydantic import BaseModel
 
 
 class UserCreate(BaseModel):
-    """ Модель UserCreate для ркгистрации """
+    """ Модель UserCreate для регистрации """
     username: str
     password: str

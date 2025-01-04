@@ -1,4 +1,26 @@
-# Пример информации из БД
-USERS_DATA = [{"username": "admin", "password": "adminpass"}, {"username": "user", "password": "userpass"}]
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.orm import sessionmaker
+from databases import Database
 
-# в реальной БД мы храним только ХЭШИ паролей (можете прочитать про библиотеку, к примеру, 'passlib') + соль (известная только нам добавка к паролю)
+from app.core.config import POSTGRES_STR_FOR_CONNECT
+from app.database.models import Base
+
+
+# URL для PostgreSQL
+database = Database(POSTGRES_STR_FOR_CONNECT)
+
+engine = create_async_engine(POSTGRES_STR_FOR_CONNECT, echo=True)
+async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+
+
+async def init_models():
+    async with engine.begin() as conn:
+        # await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
+
+
+# Dependency
+async def get_session() -> AsyncSession:
+    async with async_session() as session:
+        yield session
