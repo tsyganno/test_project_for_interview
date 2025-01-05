@@ -12,13 +12,13 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login/") # OAuth2PasswordBe
 
 
 async def create_jwt_token(data: dict):
-    """ Функция для создания JWT токена """
+    """ Функция для создания JWT токена с полезной нагрузкой"""
     data.update({"exp": datetime.utcnow() + EXPIRATION_TIME})
     return jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)  # кодируем токен, передавая в него наш словарь с тем, что мы хотим там разместить
 
 
 async def get_user_from_token(token: str = Depends(oauth2_scheme)):
-    """ Функция получения User'а по токену """
+    """ Функция по извлечению информации о пользователе из полезной нагрузки """
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])  # декодируем токен
         return payload.get("sub") # тут мы идем в полезную нагрузку JWT-токена и возвращаем утверждение о юзере (subject); обычно там еще можно взять "iss" - issuer/эмитент, или "exp" - expiration time - время 'сгорания' и другое, что мы сами туда кладем

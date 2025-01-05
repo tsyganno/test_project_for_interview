@@ -6,9 +6,13 @@ from datetime import timedelta
 load_dotenv()
 
 
+API_KEY_CURRENCY = getenv('API_KEY_CURRENCY')
+EXTERNAL_CURRENCY_URL_ROUTE = getenv('EXTERNAL_CURRENCY_URL_ROUTE')
+EXTERNAL_CONVERT_CURRENCY_URL_ROUTE = getenv('EXTERNAL_CONVERT_CURRENCY_URL_ROUTE')
+
 SECRET_KEY = getenv('SECRET_KEY')
 ALGORITHM = getenv('ALGORITHM')
-EXPIRATION_TIME = timedelta(seconds=30)
+EXPIRATION_TIME = timedelta(seconds=300)
 
 user = getenv('POSTGRESQL_USER')
 name_db = getenv('POSTGRESQL_NAME')

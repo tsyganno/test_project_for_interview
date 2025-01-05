@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
 from app.api.endpoints.users import user_router
+from app.api.endpoints.currency import currency_router
 from app.database.database import database, init_models
 
 
@@ -16,6 +17,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI()
 app.include_router(user_router)
+app.include_router(currency_router)
 
 
 if __name__ == '__main__':
