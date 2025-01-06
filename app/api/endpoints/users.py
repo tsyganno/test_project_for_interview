@@ -19,8 +19,7 @@ async def login(user_data: Annotated[OAuth2PasswordRequestForm, Depends()]):  # 
         if user_data_from_db.username_user is None or user_data.password != user_data_from_db.password_user:
             raise UserNotFoundException()
         return {"access_token": await create_jwt_token({"sub": user_data.username})}  # тут мы добавляем полезную нагрузку в токен, и говорим, что "sub" содержит значение username
-    else:
-        raise UserNotFoundException()
+    raise UserNotFoundException()
 
 
 @user_router.post('/auth/register/')
@@ -30,6 +29,4 @@ async def create_new_user(user: UserCreate):
     if user_db:
         raise UserExists()
     await write_user_to_the_database(user.username, user.password)
-    return {"message": "User successfully created",
-            "username": user.username,
-            "password": user.password}
+    return {"message": "User successfully created.", "username": user.username}

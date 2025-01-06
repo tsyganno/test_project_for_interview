@@ -11,6 +11,7 @@ currency_router = APIRouter()
 
 @currency_router.get("/currency/list/")
 async def currency_list(base: str, list_code: str, current_user: Annotated[str, Depends(get_user_from_token)]):
+    """ Роут для получения списка поддерживаемых валют и их кодов """
     user = await get_user(current_user)
     if user is None:
         raise UserNotFoundException()
@@ -19,6 +20,7 @@ async def currency_list(base: str, list_code: str, current_user: Annotated[str, 
 
 @currency_router.get("/currency/exchange/")
 async def convert_currency(from_code: str, to_code: str, amount: str, current_user: Annotated[str, Depends(get_user_from_token)]):
+    """ Роут для получения конвертируемой валюты """
     user = await get_user(current_user)
     if user is None:
         raise UserNotFoundException()
