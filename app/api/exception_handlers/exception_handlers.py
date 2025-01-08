@@ -1,8 +1,4 @@
-
-from fastapi import FastAPI, HTTPException, APIRouter
-
-
-exception_router = APIRouter()
+from fastapi import HTTPException
 
 
 class UserExists(HTTPException):
